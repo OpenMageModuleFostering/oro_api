@@ -20,44 +20,44 @@
 <config>
     <api>
         <resources>
-            <oro_ping translate="title" module="oro_api">
+            <oro translate="title" module="oro_api">
                 <model>oro_api/ping</model>
                 <title>Oro extension ping</title>
-                <acl>oro</acl>
+                <acl>oro_ping</acl>
                 <methods>
                     <ping translate="title" module="oro_api">
                         <title>Ping mage instance in order to check if extension available</title>
                         <method>ping</method>
-                        <acl>oro/ping</acl>
+                        <acl>oro_ping</acl>
                     </ping>
                 </methods>
-            </oro_ping>
+            </oro>
             <oro_quote translate="title" module="oro_api">
                 <model>oro_api/sales_quote_api</model>
                 <title>Quote Information</title>
-                <acl>oro</acl>
+                <acl>sales/quote</acl>
                 <methods>
                     <list translate="title" module="oro_api">
                         <title>Get quote list by filters</title>
                         <method>items</method>
-                        <acl>oro/quote</acl>
+                        <acl>sales/quote/info</acl>
                     </list>
                 </methods>
             </oro_quote>
             <oro_order translate="title" module="oro_api">
                 <model>oro_api/sales_order_api</model>
                 <title>Order Information</title>
-                <acl>oro</acl>
+                <acl>sales/order</acl>
                 <methods>
                     <list translate="title" module="oro_api">
                         <title>Get order list by filters</title>
                         <method>items</method>
-                        <acl>oro/order</acl>
+                        <acl>sales/order/info</acl>
                     </list>
                     <info translate="title" module="oro_api">
                         <title>Retrieve order information</title>
                         <method>info</method>
-                        <acl>oro/order</acl>
+                        <acl>sales/order/info</acl>
                     </info>
                 </methods>
                 <faults module="oro_api">
@@ -74,27 +74,27 @@
             <oro_customer translate="title" module="oro_api">
                 <model>oro_api/customer_api</model>
                 <title>Customer List Information</title>
-                <acl>oro/customer</acl>
+                <acl>sales/customer</acl>
                 <methods>
                     <list translate="title" module="oro_api">
                         <title>Get customer list by filters</title>
                         <method>items</method>
-                        <acl>oro/customer/info</acl>
+                        <acl>sales/customer/info</acl>
                     </list>
                     <create translate="title" module="oro_api">
                         <title>Create customer</title>
                         <method>create</method>
-                        <acl>oro/customer/create</acl>
+                        <acl>sales/customer/create</acl>
                     </create>
                     <update translate="title" module="oro_api">
                         <title>Update customer data</title>
                         <method>update</method>
-                        <acl>oro/customer/update</acl>
+                        <acl>sales/customer/update</acl>
                     </update>
                     <info translate="title" module="oro_api">
                         <title>Retrieve customer data</title>
                         <method>info</method>
-                        <acl>oro/customer/info</acl>
+                        <acl>sales/customer/info</acl>
                     </info>
                 </methods>
                 <faults module="oro_api">
@@ -119,17 +119,17 @@
             <oro_customer_address translate="title" module="oro_api">
                 <model>oro_api/customer_address_api</model>
                 <title>Customer Address List Information</title>
-                <acl>oro/customer</acl>
+                <acl>customer/address</acl>
                 <methods>
                     <list translate="title" module="oro_api">
                         <title>Retrieve customer addresses</title>
                         <method>items</method>
-                        <acl>oro/customer/address</acl>
+                        <acl>customer/address/info</acl>
                     </list>
                     <info translate="title" module="oro_api">
                         <title>Retrieve customer address data</title>
                         <method>info</method>
-                        <acl>oro/customer/address</acl>
+                        <acl>customer/address/info</acl>
                     </info>
                 </methods>
                 <faults module="oro_api">
@@ -146,100 +146,64 @@
             <wishlist translate="title" module="oro_api">
                 <model>oro_api/wishlist_api</model>
                 <title>Wishlist</title>
-                <acl>oro</acl>
+                <acl>wishlist</acl>
                 <methods>
                     <list translate="title" module="oro_api">
                         <title>Get wishlist collection by filters</title>
                         <method>items</method>
-                        <acl>oro/wishlist</acl>
+                        <acl>wishlist/info</acl>
                     </list>
                 </methods>
             </wishlist>
             <wishlist_item translate="title" module="oro_api">
                 <model>oro_api/wishlist_item_api</model>
                 <title>Wishlist Item</title>
-                <acl>oro</acl>
+                <acl>wishlist_item</acl>
                 <methods>
                     <list translate="title" module="oro_api">
                         <title>Get wishlist item collection by filters</title>
                         <method>items</method>
-                        <acl>oro/wishlist_item</acl>
+                        <acl>wishlist_item/info</acl>
                     </list>
                 </methods>
             </wishlist_item>
-            <oro_wishlist translate="title" module="oro_api">
-                <model>oro_api/wishlist_api</model>
-                <title>Oro Wishlist API</title>
-                <acl>oro</acl>
-                <methods>
-                    <list translate="title" module="oro_api">
-                        <title>Get wishlist with items by filters</title>
-                        <method>listWithItems</method>
-                        <acl>oro/wishlist</acl>
-                    </list>
-                </methods>
-                <faults module="oro_api">
-                    <filters_invalid>
-                        <code>100</code>
-                        <message>Invalid filters given. Details in error message.</message>
-                    </filters_invalid>
-                </faults>
-            </oro_wishlist>
-            <oro_wishlist_status translate="title" module="oro_api">
-                <model>oro_api/wishlist_status_api</model>
-                <title>Wishlist Status Information</title>
-                <acl>oro</acl>
-                <methods>
-                    <list translate="title" module="oro_api">
-                        <title>Get wishlist status by filters</title>
-                        <method>items</method>
-                        <acl>oro/wishlist</acl>
-                    </list>
-                </methods>
-                <faults module="oro_api">
-                    <filters_invalid>
-                        <code>100</code>
-                        <message>Invalid filters given. Details in error message.</message>
-                    </filters_invalid>
-                </faults>
-            </oro_wishlist_status>
             <report_product_viewed translate="title" module="oro_api">
                 <model>oro_api/report_product_viewed_api</model>
                 <title>Report Product Viewed</title>
-                <acl>oro</acl>
+                <acl>report_product_viewed</acl>
                 <methods>
                     <list translate="title" module="oro_api">
                         <title>Viewed  product collection by filters</title>
                         <method>items</method>
-                        <acl>oro/report_product_viewed</acl>
+                        <acl>report_product_viewed/info</acl>
                     </list>
                 </methods>
             </report_product_viewed>
             <newsletter_subscriber translate="title" module="oro_api">
                 <model>oro_api/newsletter_subscriber_api</model>
                 <title>Newsletter Subscriber</title>
-                <acl>oro/newsletter_subscriber</acl>
+                <acl>newsletter_subscriber</acl>
                 <methods>
                     <list translate="title" module="oro_api">
                         <title>Subscribers collection</title>
                         <method>items</method>
-                        <acl>oro/newsletter_subscriber/list</acl>
+                        <acl>newsletter_subscriber/info</acl>
                     </list>
                     <create translate="title" module="oro_api">
                         <title>Create newsletter subscriber</title>
-                        <acl>oro/newsletter_subscriber/create</acl>
+                        <acl>newsletter_subscriber/create</acl>
                     </create>
                     <update translate="title" module="oro_api">
                         <title>Update newsletter subscriber data</title>
-                        <acl>oro/newsletter_subscriber/update</acl>
+                        <acl>newsletter_subscriber/update</acl>
                     </update>
                     <subscribeEmail translate="title" module="oro_api">
                         <title>Newsletter subscriber - Subscribe email</title>
-                        <acl>oro/newsletter_subscriber/subscribe_email</acl>
+                        <acl>newsletter_subscriber/subscribe_email</acl>
                     </subscribeEmail>
                     <unsubscribe translate="title" module="oro_api">
                         <title>Unsubscribe Newsletter subscriber</title>
-                        <acl>oro/newsletter_subscriber/unsubscribe</acl>
+                        <acl>newsletter_subscriber/unsubscribe</acl>
                     </unsubscribe>
                 </methods>
                 <faults module="customer">
@@ -280,27 +244,15 @@
             <oro_website translate="title" module="oro_api">
                 <model>oro_api/website_api</model>
                 <title>Website API</title>
-                <acl>oro</acl>
+                <acl>core/store</acl>
                 <methods>
                     <list translate="title" module="oro_api">
                         <title>Retrieve websites list</title>
                         <method>items</method>
-                        <acl>oro/website</acl>
+                        <acl>core/store/list</acl>
                     </list>
                 </methods>
             </oro_website>
-            <oro_region translate="title" module="oro_api">
-                <model>oro_api/directory_region_api</model>
-                <title>Region List Information</title>
-                <acl>oro</acl>
-                <methods>
-                    <list translate="title" module="oro_api">
-                        <title>Get list of all regions</title>
-                        <method>items</method>
-                        <acl>directory/region</acl>
-                    </list>
-                </methods>
-            </oro_region>
         </resources>
         <rest>
             <mapping>
@@ -310,12 +262,6 @@
                 <wishlist_item_list>
                     <get><method>list</method></get>
                 </wishlist_item_list>
-                <oro_wishlist_list>
-                    <get><method>list</method></get>
-                </oro_wishlist_list>
-                <oro_wishlist_status_list>
-                    <get><method>list</method></get>
-                </oro_wishlist_status_list>
                 <report_product_viewed>
                     <get><method>list</method></get>
                 </report_product_viewed>
@@ -337,94 +283,62 @@
                 <oro_website>
                     <get><method>list</method></get>
                 </oro_website>
-                <oro_region>
-                    <get><method>list</method></get>
-                </oro_region>
             </mapping>
         </rest>
         <acl>
             <resources>
-                <oro translate="title" module="oro_api">
-                    <title>Oro</title>
-                    <ping translate="title" module="oro_api">
-                        <title>Oro Ping</title>
-                    </ping>
-                    <quote translate="title" module="oro_api">
-                        <title>Quote List</title>
-                    </quote>
-                    <order translate="title" module="oro_api">
-                        <title>Order Info</title>
-                    </order>
-                    <customer translate="title" module="oro_api">
-                        <title>Customer</title>
-                        <info translate="title" module="oro_api">
-                            <title>Customer Info</title>
-                        </info>
-                        <create translate="title" module="oro_api">
-                            <title>Customer Create</title>
-                        </create>
-                        <update translate="title" module="oro_api">
-                            <title>Customer Update</title>
-                        </update>
-                        <address translate="title" module="oro_api">
-                            <title>Customer Address</title>
-                        </address>
-                    </customer>
-                    <wishlist translate="title" module="oro_api">
-                        <title>Wishlist Info</title>
-                    </wishlist>
-                    <wishlist_item translate="title" module="oro_api">
-                        <title>Wishlist Item Info</title>
-                    </wishlist_item>
-                    <oro_wishlist translate="title" module="oro_api">
-                        <title>Wishlist with Items Info</title>
-                    </oro_wishlist>
-                    <oro_wishlist_status translate="title" module="oro_api">
-                        <title>Wishlist Status Info</title>
-                    </oro_wishlist_status>
-                    <report_product_viewed translate="title" module="oro_api">
+                <oro_ping>
+                    <info translate="title" module="oro_api">
+                        <title>Oro ping</title>
+                    </info>
+                </oro_ping>
+                <oro_quote>
+                    <info translate="title" module="oro_api">
+                       <title>Quote info</title>
+                    </info>
+                </oro_quote>
+                <oro_order>
+                    <info translate="title" module="oro_api">
+                        <title>Order info</title>
+                    </info>
+                </oro_order>
+                <oro_customer>
+                    <info translate="title" module="oro_api">
+                        <title>Customer info</title>
+                    </info>
+                </oro_customer>
+                <wishlist>
+                    <info translate="title" module="oro_api">
+                        <title>Wishlist info</title>
+                    </info>
+                </wishlist>
+                <wishlist_item>
+                    <info translate="title" module="oro_api">
+                        <title>Wishlist Item info</title>
+                    </info>
+                </wishlist_item>
+                <report_product_viewed>
+                    <info translate="title" module="oro_api">
                         <title>Report Product Viewed</title>
-                    </report_product_viewed>
-                    <newsletter_subscriber translate="title" module="oro_api">
+                    </info>
+                </report_product_viewed>
+                <newsletter_subscriber>
+                    <info translate="title" module="oro_api">
                         <title>Newsletter Subscriber</title>
-                        <list translate="title" module="oro_api">
-                            <title>Newsletter Subscriber List</title>
-                        </list>
-                        <create translate="title" module="oro_api">
-                            <title>Newsletter Subscriber Create</title>
-                        </create>
-                        <update translate="title" module="oro_api">
-                            <title>Newsletter Subscriber Update</title>
-                        </update>
-                        <unsubscribe translate="title" module="oro_api">
-                            <title>Newsletter Subscriber Unsubscribe</title>
-                        </unsubscribe>
-                        <subscribe_email translate="title" module="oro_api">
-                            <title>Newsletter Subscriber Subscribe Email</title>
-                        </subscribe_email>
-                    </newsletter_subscriber>
-                    <website translate="title" module="oro_api">
-                        <title>Website List</title>
-                    </website>
-                    <region translate="title" module="oro_api">
-                        <title>Region List</title>
-                    </region>
-                </oro>
+                    </info>
+                </newsletter_subscriber>
             </resources>
         </acl>
         <v2>
             <resources_function_prefix>
-                <oro_ping>oro</oro_ping>
+                <oro>oro</oro>
                 <oro_quote>oroQuote</oro_quote>
                 <oro_order>oroOrder</oro_order>
                 <oro_website>oroWebsite</oro_website>
-                <oro_region>oroRegion</oro_region>
                 <oro_customer>oroCustomer</oro_customer>
                 <oro_customer_address>oroCustomerAddress</oro_customer_address>
                 <wishlist>wishlist</wishlist>
                 <wishlist_item>wishlistItem</wishlist_item>
-                <oro_wishlist>oroWishlist</oro_wishlist>
-                <oro_wishlist_status>oroWishlistStatus</oro_wishlist_status>
                 <report_product_viewed>reportProductViewed</report_product_viewed>
                 <newsletter_subscriber>newsletterSubscriber</newsletter_subscriber>
             </resources_function_prefix>

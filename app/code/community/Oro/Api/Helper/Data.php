@@ -230,14 +230,10 @@ class Oro_Api_Helper_Data
         $knownAttributes = array_diff(array_keys($entityData), $exclude);
         $attributesToExpose = array_merge($knownAttributes, $include);
 
-        $attributes = array();
-
-        if (!empty($attributesToExpose)) {
-            $attributes = array_intersect_key(
-                array_merge($data, $entityData),
-                array_combine($attributesToExpose, $attributesToExpose)
-            );
-        }
+        $attributes = array_intersect_key(
+            array_merge($data, $entityData),
+            array_combine($attributesToExpose, $attributesToExpose)
+        );
 
         return $this->packAssoc($attributes);
     }
@@ -256,27 +252,6 @@ class Oro_Api_Helper_Data
                 'key' => $key,
                 'value' => $value
             );
-        }
-
-        return $result;
-    }
-
-    /**
-     * Get store/wibsite filter data as array from filter condition
-     *
-     * @param array $condition
-     * @return array
-     */
-    public function getDataFromFilterCondition($condition)
-    {
-        $result = array();
-
-        if (is_array($condition)) {
-            if (isset($condition['eq'])) {
-                $result = array($condition['eq']);
-            } elseif (isset($condition['in'])) {
-                $result = $condition['in'];
-            }
         }
 
         return $result;

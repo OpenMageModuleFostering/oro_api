@@ -120,14 +120,12 @@ class Oro_Api_Model_Sales_Order_Api extends Mage_Sales_Model_Api_Resource
     protected function _getOrderAdditionalInfo($order)
     {
         if ($order->getGiftMessageId() > 0) {
-            $orderGiftMessage =  Mage::getSingleton('giftmessage/message')->load($order->getGiftMessageId())
-                ->getMessage();
-        } else {
-            $orderGiftMessage  = null;
+            $order->setGiftMessage(
+                Mage::getSingleton('giftmessage/message')->load($order->getGiftMessageId())->getMessage()
+            );
         }
 
         $result = array();
-        $result['gift_message'] =  $orderGiftMessage;
         $result['shipping_address'] = $this->_getAttributes($order->getShippingAddress(), 'order_address');
         $result['billing_address']  = $this->_getAttributes($order->getBillingAddress(), 'order_address');
         $result['items'] = array();
@@ -135,15 +133,12 @@ class Oro_Api_Model_Sales_Order_Api extends Mage_Sales_Model_Api_Resource
         /** @var Mage_Sales_Model_Order_Item $item */
         foreach ($order->getAllItems() as $item) {
             if ($item->getGiftMessageId() > 0) {
-                $cartItemGiftMessage =  Mage::getSingleton('giftmessage/message')->load($item->getGiftMessageId())
-                    ->getMessage();
-            } else {
-                $cartItemGiftMessage = null;
+                $item->setGiftMessage(
+                    Mage::getSingleton('giftmessage/message')->load($item->getGiftMessageId())->getMessage()
+                );
             }
 
-            $cartItemInfo = $this->_getAttributes($item, 'order_item');
-            $cartItemInfo['gift_message'] = $cartItemGiftMessage;
-            $result['items'][] = $cartItemInfo;
+            $result['items'][] = $this->_getAttributes($item, 'order_item');
         }
 
         $result['payment'] = $this->_getAttributes($order->getPayment(), 'order_payment');
@@ -153,8 +148,6 @@ class Oro_Api_Model_Sales_Order_Api extends Mage_Sales_Model_Api_Resource
         foreach ($order->getAllStatusHistory() as $history) {
             $result['status_history'][] = $this->_getAttributes($history, 'order_status_history');
         }
-
-        $result['coupon_code'] = $order->getCouponCode();
 
         return $result;
     }
