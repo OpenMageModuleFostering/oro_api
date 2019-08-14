@@ -79,7 +79,6 @@
                     <list translate="title" module="oro_api">
                         <title>Get customer list by filters</title>
                         <method>items</method>
-                        <method>items</method>
                         <acl>oro/customer/info</acl>
                     </list>
                     <create translate="title" module="oro_api">
