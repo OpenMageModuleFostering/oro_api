@@ -149,6 +149,8 @@ class Oro_Api_Model_Sales_Order_Api extends Mage_Sales_Model_Api_Resource
             $result['status_history'][] = $this->_getAttributes($history, 'order_status_history');
         }
 
+        $result['coupon_code'] = $order->getCouponCode();
+
         return $result;
     }
 

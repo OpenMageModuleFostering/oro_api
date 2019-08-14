@@ -120,6 +120,7 @@
 
             <complexType name="salesOrderEntity">
                 <all>
+                    <element name="coupon_code" type="xsd:string" minOccurs="0" />
                     <element name="attributes" type="typens:associativeArray" minOccurs="0" maxOccurs="1"/>
                 </all>
             </complexType>
