@@ -75,6 +75,7 @@
                     <xsd:element name="ext_shipping_info" type="xsd:string" minOccurs="0" />
                     <xsd:element name="gift_message_id" type="xsd:string" minOccurs="0" />
                     <xsd:element name="is_persistent" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="gift_message" type="xsd:string" minOccurs="0" />
 
                     <xsd:element name="shipping_address" type="typens:shoppingCartAddressEntity" minOccurs="0"/>
                     <xsd:element name="billing_address" type="typens:shoppingCartAddressEntity" minOccurs="0"/>
@@ -89,6 +90,19 @@
                 <xsd:sequence>
                     <xsd:element name="product_image_url" type="xsd:string" minOccurs="0"/>
                     <xsd:element name="product_url" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="categories" type="typens:shoppingCartItemEntityCategoriesArray" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="shoppingCartItemEntityCategory">
+                <xsd:sequence>
+                    <xsd:element name="name" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="shoppingCartItemEntityCategoriesArray">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="typens:shoppingCartItemEntityCategory" />
                 </xsd:sequence>
             </xsd:complexType>
 
@@ -100,6 +114,7 @@
 
             <xsd:complexType name="salesOrderEntity">
                 <xsd:sequence>
+                    <xsd:element name="coupon_code" type="xsd:string" minOccurs="0" />
                     <xsd:element minOccurs="0" maxOccurs="1" name="attributes" type="typens:associativeArray"/>
                 </xsd:sequence>
             </xsd:complexType>
@@ -143,6 +158,64 @@
                     <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="typens:wishlistItemEntity" />
                 </xsd:sequence>
             </xsd:complexType>
+
+            <!--  Oro Wishlist -->
+            <xsd:complexType name="oroWishlistEntity">
+                <xsd:sequence>
+                    <xsd:element name="wishlist_id" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="customer_id" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="shared" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="sharing_code" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="updated_at" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="name" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="visibility" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="customer_email" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="items" type="typens:oroWishlistItemEntityArray" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="oroWishlistEntityArray">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="typens:oroWishlistEntity" />
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="oroWishlistItemEntity">
+                <xsd:sequence>
+                    <xsd:element name="wishlist_item_id" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="wishlist_id" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="product_id" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="store_id" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="website_id" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="added_at" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="description" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="qty" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="sku" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="product_name" type="xsd:string" minOccurs="0" />
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="oroWishlistItemEntityArray">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="typens:oroWishlistItemEntity" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <!--  Oro Wishlist -->
+
+            <!--  Oro Wishlist Status-->
+            <xsd:complexType name="oroWishlistStatusEntity">
+                <xsd:sequence>
+                    <xsd:element name="wishlist_id" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="deleted_at" type="xsd:string" minOccurs="0" />
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="oroWishlistStatusEntityArray">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="typens:oroWishlistStatusEntity" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <!--  Oro Wishlist Status-->
 
             <!--  Report Product Viewed -->
             <xsd:complexType name="reportProductViewedEntity">
@@ -196,6 +269,7 @@
                     <xsd:element name="version" type="xsd:string" minOccurs="0" />
                     <xsd:element name="mage_version" type="xsd:string" minOccurs="0" />
                     <xsd:element name="admin_url" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="customer_scope" type="xsd:int" minOccurs="0" />
                 </xsd:sequence>
             </xsd:complexType>
 
@@ -541,6 +615,8 @@
                 <xsd:complexType>
                     <xsd:sequence>
                         <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="filters" type="typens:filters" />
+                        <xsd:element minOccurs="0" maxOccurs="1" name="pager" type="typens:pager" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
@@ -640,6 +716,32 @@
     </wsdl:message>
     <wsdl:message name="wishlistItemListResponse">
         <wsdl:part name="result" element="typens:wishlistItemEntityArray" />
+    </wsdl:message>
+
+    <!--  Oro Wishlist -->
+    <wsdl:message name="oroWishlistItemListRequest">
+        <wsdl:part name="sessionId" element="xsd:string" />
+        <wsdl:part name="filters" element="typens:filters" />
+    </wsdl:message>
+    <wsdl:message name="oroWishlistItemListResponse">
+        <wsdl:part name="result" element="typens:oroWishlistItemEntityArray" />
+    </wsdl:message>
+    <!--  Oro Wishlist -->
+
+    <wsdl:message name="oroWishlistListRequest">
+        <wsdl:part name="sessionId" element="xsd:string" />
+        <wsdl:part name="filters" element="typens:filters" />
+    </wsdl:message>
+    <wsdl:message name="oroWishlistListResponse">
+        <wsdl:part name="result" element="typens:oroWishlistEntityArray" />
+    </wsdl:message>
+
+    <wsdl:message name="oroWishlistStatusListRequest">
+        <wsdl:part name="sessionId" element="xsd:string" />
+        <wsdl:part name="filters" element="typens:filters" />
+    </wsdl:message>
+    <wsdl:message name="oroWishlistStatusListResponse">
+        <wsdl:part name="result" element="typens:oroWishlistStatusEntityArray" />
     </wsdl:message>
 
     <!--  Report Product Viewed -->
@@ -771,8 +873,20 @@
             <wsdl:output message="typens:wishlistItemListResponse"/>
         </wsdl:operation>
 
+        <wsdl:operation name="oroWishlistList">
+            <wsdl:documentation>Get wishlist collection with items</wsdl:documentation>
+            <wsdl:input message="typens:oroWishlistListRequest"/>
+            <wsdl:output message="typens:oroWishlistListResponse"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="oroWishlistStatusList">
+            <wsdl:documentation>Get wishlist collection with items</wsdl:documentation>
+            <wsdl:input message="typens:oroWishlistStatusListRequest"/>
+            <wsdl:output message="typens:oroWishlistStatusListResponse"/>
+        </wsdl:operation>
+
         <wsdl:operation name="reportProductViewedList">
-            <wsdl:documentation>Get wishlist item collection</wsdl:documentation>
+            <wsdl:documentation>Get product viewed collection</wsdl:documentation>
             <wsdl:input message="typens:reportProductViewedListRequest"/>
             <wsdl:output message="typens:reportProductViewedListResponse"/>
         </wsdl:operation>
@@ -916,6 +1030,24 @@
             </wsdl:output>
         </wsdl:operation>
         <wsdl:operation name="wishlistItemList">
+            <soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="oroWishlistList">
+            <soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="oroWishlistStatusList">
             <soap:operation soapAction=""/>
             <wsdl:input>
                 <soap:body use="literal" />

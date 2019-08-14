@@ -1,7 +1,6 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
- * MageCore
+ * Oro Inc.
  *
  * NOTICE OF LICENSE
  *
@@ -16,15 +15,19 @@
  * @copyright Copyright 2013 Oro Inc. (http://www.orocrm.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
--->
-<config>
-    <modules>
-        <Oro_Api>
-            <active>true</active>
-            <codePool>community</codePool>
-            <depends>
-                <Mage_Api/>
-            </depends>
-        </Oro_Api>
-    </modules>
-</config>
+class Oro_Api_Model_Sales_Quote_Item extends Mage_Sales_Model_Quote_Item
+{
+    /**
+     * {@inheritdoc}
+     *
+     * In addition it fixes Magento bug which causes calling methods on null in case productId is null
+     */
+    public function checkData()
+    {
+        if (!$this->getProductId()) {
+            return $this;
+        }
+
+        return parent::checkData();
+    }
+}
