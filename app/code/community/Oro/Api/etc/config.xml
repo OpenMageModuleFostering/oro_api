@@ -20,7 +20,7 @@
 <config>
     <modules>
         <Oro_Api>
-            <version>1.1.4</version>
+            <version>1.2.0</version>
         </Oro_Api>
     </modules>
     <global>
@@ -50,6 +50,16 @@
                 </setup>
             </oro_api_setup>
         </resources>
+        <events>
+            <newsletter_subscriber_save_before>
+                <observers>
+                    <oro_api_newsletter_subscriber_save_before_observer>
+                        <class>oro_api/observer</class>
+                        <method>beforeNewsletterSubscriberSave</method>
+                    </oro_api_newsletter_subscriber_save_before_observer>
+                </observers>
+            </newsletter_subscriber_save_before>
+        </events>
     </global>
     <admin>
         <routers>

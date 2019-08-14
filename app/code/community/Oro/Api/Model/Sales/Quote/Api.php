@@ -19,6 +19,23 @@ class Oro_Api_Model_Sales_Quote_Api
     extends Mage_Checkout_Model_Api_Resource
 {
     /**
+     * @var array
+     */
+    protected $_knownAttributes = array();
+
+    /**
+     * @var Oro_Api_Helper_Data
+     */
+    protected $_apiHelper;
+
+    public function __construct()
+    {
+        $this->_apiHelper = Mage::helper('oro_api');
+    }
+
+    /**
+     * Retrieve list of quotes. Filtration could be applied
+     *
      * @param array|object $filters
      * @param \stdClass    $pager
      *
@@ -29,10 +46,7 @@ class Oro_Api_Model_Sales_Quote_Api
         /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
         $quoteCollection = Mage::getResourceModel('sales/quote_collection');
 
-        /** @var $apiHelper Oro_Api_Helper_Data */
-        $apiHelper = Mage::helper('oro_api');
-
-        $filters = $apiHelper->parseFilters($filters);
+        $filters = $this->_apiHelper->parseFilters($filters);
         try {
             foreach ($filters as $field => $value) {
                 $quoteCollection->addFieldToFilter($field, $value);
@@ -42,14 +56,21 @@ class Oro_Api_Model_Sales_Quote_Api
         }
 
         $quoteCollection->setOrder('entity_id', Varien_Data_Collection_Db::SORT_ORDER_ASC);
-        if (!$apiHelper->applyPager($quoteCollection, $pager)) {
+        if (!$this->_apiHelper->applyPager($quoteCollection, $pager)) {
             // there's no such page, so no results for it
             return array();
         }
 
         $resultArray = array();
+        /** @var Mage_Sales_Model_Quote $quote */
         foreach ($quoteCollection as $quote) {
-            $resultArray[] = array_merge($quote->__toArray(), $this->info($quote));
+            $row = $quote->__toArray();
+            $attributes = $this->_apiHelper->getNotIncludedAttributes($quote, $row, $this->_getKnownQuoteAttributes());
+            if ($attributes) {
+                $row['attributes'] = $attributes;
+            }
+            $row = array_merge($row, $this->info($quote));
+            $resultArray[] = $row;
         }
 
         return $resultArray;
@@ -58,7 +79,7 @@ class Oro_Api_Model_Sales_Quote_Api
     /**
      * Retrieve full information about quote
      *
-     * @param  $quote
+     * @param Mage_Sales_Model_Quote $quote
      * @return array
      */
     protected function info($quote)
@@ -74,6 +95,7 @@ class Oro_Api_Model_Sales_Quote_Api
         $result['billing_address']  = $this->_getAttributes($quote->getBillingAddress(), 'quote_address');
         $result['items']            = array();
 
+        /** @var Mage_Sales_Model_Quote_Item $item */
         foreach ($quote->getAllItems() as $item) {
             if ($item->getGiftMessageId() > 0) {
                 $item->setGiftMessage(
@@ -81,7 +103,11 @@ class Oro_Api_Model_Sales_Quote_Api
                 );
             }
 
-            $result['items'][] = $this->_getAttributes($item, 'quote_item');
+            $quoteItem = $this->_getAttributes($item, 'quote_item');
+            $productAttributes = $this->_getProductAttributes($item);
+            $quoteItem = array_merge($quoteItem, $productAttributes);
+
+            $result['items'][] = $quoteItem;
         }
 
         $result['payment'] = $this->_getAttributes($quote->getPayment(), 'quote_payment');
@@ -92,5 +118,59 @@ class Oro_Api_Model_Sales_Quote_Api
         }
 
         return $result;
+    }
+
+    /**
+     * @param Mage_Sales_Model_Quote_Item $item
+     * @return array
+     */
+    protected function _getProductAttributes($item)
+    {
+        $result = array();
+        /** @var Mage_Catalog_Model_Product $productModel */
+        $productModel = Mage::getModel('catalog/product');
+        /** @var Mage_Catalog_Model_Resource_Eav_Attribute[] $mediaAttributes */
+        $mediaAttributes = $productModel->getMediaAttributes();
+        if (is_array($mediaAttributes) && array_key_exists('image', $mediaAttributes)) {
+            /** @var Mage_Catalog_Model_Product $product */
+            $product = $productModel
+                ->setStoreId($item->getQuote()->getStoreId())
+                ->load($item->getProductId(), $mediaAttributes['image']->getAttributeCode());
+
+            if ($product) {
+                /** @var Mage_Catalog_Model_Product_Media_Config $productMediaConfig */
+                $productMediaConfig = Mage::getSingleton('catalog/product_media_config');
+
+                $productImage = $product->getData('image');
+                if ($productImage) {
+                    $result['product_image_url'] = $productMediaConfig->getMediaUrl($productImage);
+                }
+            }
+        } else {
+            $product = $item->getProduct();
+        }
+
+        if ($product) {
+            $result['product_url'] = $product->getProductUrl(false);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get list of attributes exposed to API.
+     *
+     * @return array
+     */
+    protected function _getKnownQuoteAttributes()
+    {
+        if (!$this->_knownAttributes) {
+            $this->_knownAttributes = array_merge(
+                $this->_apiHelper->getComplexTypeScalarAttributes('salesQuoteEntity'),
+                array('entity_id')
+            );
+        }
+
+        return $this->_knownAttributes;
     }
 }

@@ -15,17 +15,24 @@
  * @copyright Copyright 2013 Oro Inc. (http://www.orocrm.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class Oro_Api_Model_Ping extends Mage_Api_Model_Resource_Abstract
+class Oro_Api_Model_Website_Api extends Mage_Api_Model_Resource_Abstract
 {
     /**
+     * Retrieve websites list
+     *
      * @return array
      */
-    public function ping()
+    public function items()
     {
-        return array(
-            'version'      => (string)Mage::getConfig()->getNode('modules/Oro_Api/version'),
-            'mage_version' => Mage::getVersion(),
-            'admin_url'    => Mage::getUrl('adminhtml'),
-        );
+        /** @var Mage_Core_Model_Website[] $websites */
+        $websites = Mage::app()->getWebsites(true);
+
+        // Make result array
+        $result = array();
+        foreach ($websites as $website) {
+            $result[] = $website->toArray();
+        }
+
+        return $result;
     }
 }

@@ -15,17 +15,15 @@
  * @copyright Copyright 2013 Oro Inc. (http://www.orocrm.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class Oro_Api_Model_Ping extends Mage_Api_Model_Resource_Abstract
+class Oro_Api_Model_Observer
 {
     /**
-     * @return array
+     * @param Varien_Event_Observer $observer
      */
-    public function ping()
+    public function beforeNewsletterSubscriberSave($observer)
     {
-        return array(
-            'version'      => (string)Mage::getConfig()->getNode('modules/Oro_Api/version'),
-            'mage_version' => Mage::getVersion(),
-            'admin_url'    => Mage::getUrl('adminhtml'),
-        );
+        $subscriber = $observer->getSubscriber();
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
+        $subscriber['change_status_at'] = $now->format('Y-m-d H:i:s');
     }
 }

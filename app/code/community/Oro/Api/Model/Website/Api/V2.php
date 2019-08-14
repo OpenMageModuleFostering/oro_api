@@ -15,17 +15,7 @@
  * @copyright Copyright 2013 Oro Inc. (http://www.orocrm.com)
  * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  */
-class Oro_Api_Model_Ping extends Mage_Api_Model_Resource_Abstract
+class Oro_Api_Model_Website_Api_V2
+    extends Oro_Api_Model_Website_Api
 {
-    /**
-     * @return array
-     */
-    public function ping()
-    {
-        return array(
-            'version'      => (string)Mage::getConfig()->getNode('modules/Oro_Api/version'),
-            'mage_version' => Mage::getVersion(),
-            'admin_url'    => Mage::getUrl('adminhtml'),
-        );
-    }
 }
