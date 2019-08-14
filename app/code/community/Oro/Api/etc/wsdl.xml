@@ -107,6 +107,15 @@
                     </restriction>
                 </complexContent>
             </complexType>
+
+            <complexType name="salesOrderEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:salesOrderEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+
             <complexType name="wishlistEntity">
                 <all>
                     <element name="wishlist_id" type="xsd:string" minOccurs="0" />
@@ -194,40 +203,92 @@
                     <element name="mage_edition" type="xsd:string" minOccurs="0" />
                 </all>
             </complexType>
+
+            <complexType name="oroCustomerEntity">
+                <all>
+                    <element name="customer_id" type="xsd:int" minOccurs="0" />
+                    <element name="created_at" type="xsd:string" minOccurs="0" />
+                    <element name="updated_at" type="xsd:string" minOccurs="0" />
+                    <element name="increment_id" type="xsd:string" minOccurs="0" />
+                    <element name="store_id" type="xsd:int" minOccurs="0" />
+                    <element name="website_id" type="xsd:int" minOccurs="0" />
+                    <element name="created_in" type="xsd:string" minOccurs="0" />
+                    <element name="email" type="xsd:string" minOccurs="0" />
+                    <element name="firstname" type="xsd:string" minOccurs="0" />
+                    <element name="middlename" type="xsd:string" minOccurs="0" />
+                    <element name="lastname" type="xsd:string" minOccurs="0" />
+                    <element name="group_id" type="xsd:int" minOccurs="0" />
+                    <element name="prefix" type="xsd:string" minOccurs="0" />
+                    <element name="suffix" type="xsd:string" minOccurs="0" />
+                    <element name="dob" type="xsd:string" minOccurs="0" />
+                    <element name="taxvat" type="xsd:string" minOccurs="0" />
+                    <element name="confirmation" type="xsd:boolean" minOccurs="0" />
+                    <element name="password_hash" type="xsd:string" minOccurs="0" />
+
+                    <element name="addresses" type="typens:customerAddressEntityArray" minOccurs="1"/>
+                </all>
+            </complexType>
+
+            <complexType name="oroCustomerEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:oroCustomerEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
         </schema>
     </types>
+
     <portType name="{{var wsdl.handler}}PortType">
         <operation name="oroPing">
             <documentation>Get basic presence info</documentation>
             <input message="typens:oroPingRequest"/>
             <output message="typens:oroPingResponse"/>
         </operation>
-        <operation name="salesQuoteList">
+
+        <operation name="oroQuoteList">
             <documentation>Get quote data list</documentation>
-            <input message="typens:salesQuoteListRequest"/>
-            <output message="typens:salesQuoteListResponse"/>
+            <input message="typens:oroQuoteListRequest"/>
+            <output message="typens:oroQuoteListResponse"/>
         </operation>
+
+        <operation name="oroOrderList">
+            <documentation>Get quote data list</documentation>
+            <input message="typens:oroOrderListRequest"/>
+            <output message="typens:oroOrderListResponse"/>
+        </operation>
+
+        <operation name="oroCustomerList">
+            <documentation>Get quote data list</documentation>
+            <input message="typens:oroCustomerListRequest"/>
+            <output message="typens:oroCustomerListResponse"/>
+        </operation>
+
         <operation name="wishlistList">
             <documentation>Get wishlist collection</documentation>
             <input message="typens:wishlistListRequest"/>
             <output message="typens:wishlistListResponse"/>
         </operation>
+
         <operation name="wishlistItemList">
             <documentation>Get wishlist item collection</documentation>
             <input message="typens:wishlistItemListRequest"/>
             <output message="typens:wishlistItemListResponse"/>
         </operation>
+
         <operation name="reportProductViewedList">
             <documentation>Get wishlist item collection</documentation>
             <input message="typens:reportProductViewedListRequest"/>
             <output message="typens:reportProductViewedListResponse"/>
         </operation>
+
         <operation name="newsletterSubscriberList">
             <documentation>Newsletter subscriber collection</documentation>
             <input message="typens:newsletterSubscriberListRequest"/>
             <output message="typens:newsletterSubscriberListResponse"/>
         </operation>
     </portType>
+
     <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
         <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
         <operation name="oroPing">
@@ -235,7 +296,17 @@
             <input><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
             <output><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
         </operation>
-        <operation name="salesQuoteList">
+        <operation name="oroQuoteList">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+            <output><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+        </operation>
+        <operation name="oroOrderList">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+            <output><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+        </operation>
+        <operation name="oroCustomerList">
             <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
             <input><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
             <output><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
@@ -261,20 +332,41 @@
             <output><soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
         </operation>
     </binding>
+
     <message name="oroPingRequest">
         <part name="sessionId" type="xsd:string" />
     </message>
     <message name="oroPingResponse">
         <part name="result" type="typens:oroPingResponse" />
     </message>
-    <message name="salesQuoteListRequest">
+
+    <message name="oroQuoteListRequest">
         <part name="sessionId" type="xsd:string" />
         <part name="filters" type="typens:filters" />
         <part name="pager" type="typens:pager" />
     </message>
-    <message name="salesQuoteListResponse">
+    <message name="oroQuoteListResponse">
         <part name="result" type="typens:salesQuoteEntityArray" />
     </message>
+
+    <message name="oroOrderListRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="filters" type="typens:filters" />
+        <part name="pager" type="typens:pager" />
+    </message>
+    <message name="oroOrderListResponse">
+        <part name="result" type="typens:salesOrderEntityArray" />
+    </message>
+
+    <message name="oroCustomerListRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="filters" type="typens:filters" />
+        <part name="pager" type="typens:pager" />
+    </message>
+    <message name="oroCustomerListResponse">
+        <part name="result" type="typens:oroCustomerEntityArray" />
+    </message>
+
     <message name="wishlistListRequest">
         <part name="sessionId" type="xsd:string" />
         <part name="filters" type="typens:filters" />
@@ -282,6 +374,7 @@
     <message name="wishlistListResponse">
         <part name="result" type="typens:wishlistEntityArray" />
     </message>
+
     <message name="wishlistItemListRequest">
         <part name="sessionId" type="xsd:string" />
         <part name="filters" type="typens:filters" />
@@ -289,6 +382,7 @@
     <message name="wishlistItemListResponse">
         <part name="result" type="typens:wishlistItemEntityArray" />
     </message>
+
     <!--  Report Product Viewed -->
     <message name="reportProductViewedListRequest">
         <part name="sessionId" type="xsd:string" />
@@ -298,6 +392,7 @@
         <part name="result" type="typens:reportProductViewedEntityArray" />
     </message>
     <!--  Report Product Viewed -->
+
     <!--  Newsletters Subscriber -->
     <message name="newsletterSubscriberListRequest">
         <part name="sessionId" type="xsd:string" />
