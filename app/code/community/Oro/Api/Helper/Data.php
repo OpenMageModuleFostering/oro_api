@@ -230,10 +230,14 @@ class Oro_Api_Helper_Data
         $knownAttributes = array_diff(array_keys($entityData), $exclude);
         $attributesToExpose = array_merge($knownAttributes, $include);
 
-        $attributes = array_intersect_key(
-            array_merge($data, $entityData),
-            array_combine($attributesToExpose, $attributesToExpose)
-        );
+        $attributes = array();
+
+        if (!empty($attributesToExpose)) {
+            $attributes = array_intersect_key(
+                array_merge($data, $entityData),
+                array_combine($attributesToExpose, $attributesToExpose)
+            );
+        }
 
         return $this->packAssoc($attributes);
     }
