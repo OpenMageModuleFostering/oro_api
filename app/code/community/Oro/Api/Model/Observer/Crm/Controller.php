@@ -80,8 +80,19 @@ class Oro_Api_Model_Observer_Crm_Controller
      */
     public function handleRenderLayout(Varien_Event_Observer $observer)
     {
+        $layout = Mage::app()->getLayout();
+
+        //add check cookies script
+        $layout->createBlock('adminhtml/template', 'oro_check_script', array('template' => 'oro/api/check.phtml'));
+        $this->_insertBlock('oro_check_script', $layout);
+
         if (Mage::helper('oro_api')->isOroRequest()) {
-            $layout = Mage::app()->getLayout();
+            // Remove back button on Manage Shopping Cart of Customer if it's rendered in Oro Request.
+            if (class_exists('Enterprise_Checkout_Block_Adminhtml_Manage', false) &&
+                ($manageBlock = $layout->getBlock('ID')) instanceof Enterprise_Checkout_Block_Adminhtml_Manage
+            ) {
+                $manageBlock->removeButton('back');
+            }
 
             if (($contentBlock = $layout->getBlock('content')) instanceof Mage_Adminhtml_Block_Sales_Order_Create) {
                 $contentBlock->removeButton('reset');
@@ -99,30 +110,52 @@ class Oro_Api_Model_Observer_Crm_Controller
             /** @var Mage_Core_Block_Text $script */
             $layout->createBlock('adminhtml/template', 'oro_script', array('template' => 'oro/api/script.phtml'));
 
-            $destination = null;
-
-            switch (true) {
-                case $layout->getBlock('form.additional.info') instanceof Mage_Core_Block_Text_List:
-                    $destination = $layout->getBlock('form.additional.info');
-                    break;
-                case $layout->getBlock('before_body_end') instanceof Mage_Core_Block_Text_List:
-                    $destination = $layout->getBlock('before_body_end');
-                    break;
-                case $layout->getBlock('content') instanceof Mage_Core_Block_Text_List:
-                    $destination = $layout->getBlock('content');
-                    break;
-                default:
-                    $destination = null;
-                    break;
+            if (($loginForm = $layout->getBlock('form.additional.info')) instanceof Mage_Core_Block_Text_List) {
+                $layout->createBlock(
+                    'adminhtml/template',
+                    'oro_login_styles',
+                    array('template' => 'oro/api/login_styles.phtml')
+                );
+                $loginForm->insert('oro_login_styles');
+            } elseif ($layout->getBlock('head')) {
+                $layout->getBlock('head')->addCss('oro_style.css');
             }
 
-            if ($destination) {
-                $destination->insert('oro_script');
-            }
+            $this->_insertBlock('oro_script', $layout);
 
             if ($layout->getBlock('root') instanceof Mage_Core_Block_Template) {
                 $layout->getBlock('root')->setTemplate('oro/api/page.phtml');
             }
+        }
+    }
+
+    /**
+     * Insert block
+     *
+     * @param string $blockName
+     * @param Mage_Core_Model_Layout $layout
+     */
+    protected function _insertBlock($blockName, Mage_Core_Model_Layout $layout)
+    {
+        $destination = null;
+
+        switch (true) {
+            case $layout->getBlock('form.additional.info') instanceof Mage_Core_Block_Text_List:
+                $destination = $layout->getBlock('form.additional.info');
+                break;
+            case $layout->getBlock('before_body_end') instanceof Mage_Core_Block_Text_List:
+                $destination = $layout->getBlock('before_body_end');
+                break;
+            case $layout->getBlock('content') instanceof Mage_Core_Block_Text_List:
+                $destination = $layout->getBlock('content');
+                break;
+            default:
+                $destination = null;
+                break;
+        }
+
+        if ($destination) {
+            $destination->insert($blockName);
         }
     }
 
