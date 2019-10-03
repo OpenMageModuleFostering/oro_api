@@ -1,7 +1,7 @@
 {
-    "name": "OpenMageModuleFostering\/Oro_Api",
+    "name": "openmage-module-fostering\/oro_api",
     "type": "magento-module",
-    "license": "Open-Software-License-(OSL-3.0)",
+    "license": "OSL-3.0",
     "homepage": "",
     "description": "OroCRM Bridge",
     "authors": [
