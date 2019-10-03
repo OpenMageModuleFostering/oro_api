@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Oro_Api",
+    "name": "OpenMageModuleFostering\/Oro_Api",
     "type": "magento-module",
     "license": "Open-Software-License-(OSL-3.0)",
     "homepage": "",
     "description": "OroCRM Bridge",
     "authors": [
-    {
-        "name": "Oro, Inc",
-        "email": "info@orocrm.com"
-    }
-],
+        {
+            "name": "Oro, Inc",
+            "email": "info@orocrm.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
